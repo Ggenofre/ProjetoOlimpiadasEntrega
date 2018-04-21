@@ -1,9 +1,13 @@
+package teste;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+
+import model.Pais;
+import service.PaisService;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 	public class PaisTeste {
@@ -35,14 +39,16 @@ import org.junit.runners.MethodSorters;
 		fixture.setNome("Brasil");
 		fixture.setPopulacao(200000000);
 		fixture.setArea(453.543);
-		Pais novo = pais.carregar(1);
+		PaisService ps = new PaisService();
+		Pais novo = ps.carregar(1);
 		assertEquals("testa inclusao", novo, fixture);
 	}
 	
 	@Test
 	public void test01Criar() {
 		System.out.println("criar");
-		id = pais.criar(pais);
+		PaisService ps = new PaisService();
+		id = ps.criar(pais);
 		System.out.println(id);
 		copia.setId(id);
 		assertEquals("testa criacao", pais, copia);
@@ -53,8 +59,9 @@ import org.junit.runners.MethodSorters;
 		System.out.println("atualizar");
 		pais.setPopulacao(546546546);
 		copia.setPopulacao(546546546);
-		pais.atualizar(pais);
-		pais.carregar(pais.getId());
+		PaisService ps = new PaisService();
+		ps.atualizar(pais);
+		ps.carregar(pais.getId());
 		assertEquals("testa atualizacao", pais, copia);
 	}
 	
@@ -65,7 +72,8 @@ import org.junit.runners.MethodSorters;
 		copia.setNome(null);
 		copia.setPopulacao(-1);
 		copia.setArea(-1);
-		pais = pais.carregar(id);
+		PaisService ps = new PaisService();
+		pais = ps.carregar(id);
 		assertEquals("testa exclusao", pais, copia);//
 	}
 }

@@ -1,9 +1,4 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import com.mysql.jdbc.PreparedStatement;
+package model;
 
 public class Modalidade {
 	private int id;
@@ -88,40 +83,5 @@ public class Modalidade {
 			return false;
 		return true;
 	}
-	
-	static {
-		try {
-		Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-		throw new RuntimeException(e);
-		}
-	}
-	
-	// Obtém conexão com o banco de dados
-    public Connection obtemConexao() throws SQLException {
-        return DriverManager
-                .getConnection("jdbc:mysql://localhost/BdOlimpiadas?user=root&password=");
-        
-    }
-    public Modalidade criar(Modalidade modalidade, Olimpiada olimpiada) {
-        String sqlInsert = "INSERT INTO modalidade(nome, tipo) VALUES ( ?, ?)";
-        try (Connection conn = obtemConexao();
-                PreparedStatement stm = (PreparedStatement) conn.prepareStatement(sqlInsert);) {
-            stm.setString(1, modalidade.getNome());
-            stm.setString(2, olimpiada.getTipo());
-            stm.execute();
-            String sqlQuery = "SELECT LAST_INSERT_ID()";
-            try (PreparedStatement stm2 = (PreparedStatement) conn.prepareStatement(sqlQuery);
-                    ResultSet rs = stm2.executeQuery();) {
-                if (rs.next()) {
-                    modalidade.setId(rs.getInt(1));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return modalidade;
-    }
+  
 }
